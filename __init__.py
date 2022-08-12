@@ -26,6 +26,7 @@ classes = (
     PBRDBIMPORTER_PT_MaterialPanel,
     # PBRDBIMPORTER_PT_LightSourcesPanel,
     # PBRDBIMPORTER_PT_CamerasPanel
+    PBRDBIMPORTER_PT_AboutPanel
 )
 
 categories = ("materials", "lightsources", "cameras")
