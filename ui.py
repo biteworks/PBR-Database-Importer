@@ -25,7 +25,9 @@ class PBRDBIMPORTER_PT_MaterialPanel(bpy.types.Panel):
         scene = context.scene
         pbrdbimporter = scene.pbrdbimporterprops
 
-        layout.prop(pbrdbimporter, "material_list", text="")
+        layout.prop(pbrdbimporter, "materialList", text="")
+        layout.prop(pbrdbimporter, "assignMaterialToObject")
+        layout.prop(pbrdbimporter, "addFakeUserToMaterial")
         layout.operator("pbrdbimporter.create_material",
                         text="Create material", icon="MATERIAL_DATA")
         layout.separator()
@@ -44,7 +46,7 @@ class PBRDBIMPORTER_PT_LightSourcesPanel(bpy.types.Panel):
         scene = context.scene
         pbrdbimporter = scene.pbrdbimporterprops
 
-        layout.prop(pbrdbimporter, "light_source_list", text="")
+        layout.prop(pbrdbimporter, "lightSourceList", text="")
         layout.operator("pbrdbimporter.create_light_source",
                         text="Create light source", icon="LIGHT_DATA")
         layout.separator()
@@ -63,7 +65,7 @@ class PBRDBIMPORTER_PT_CamerasPanel(bpy.types.Panel):
         scene = context.scene
         pbrdbimporter = scene.pbrdbimporterprops
 
-        layout.prop(pbrdbimporter, "camera_list", text="")
+        layout.prop(pbrdbimporter, "cameraList", text="")
         layout.operator("pbrdbimporter.create_camera", text="Create camera",
                         icon="CAMERA_DATA")
         layout.separator()
