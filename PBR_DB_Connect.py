@@ -53,8 +53,15 @@ class PBR_DB_Connect:
 
     def getMaterialAttributes(self, materialName):
         self.readCache()
-        print("Get Material attributes for " + materialName)
 
         for material in self.presetsList:
             if material["name"] == materialName:
                 return material
+
+    def getLightSourceAttributes(self, lightSourceName):
+        self.readCache()
+        return
+
+    def getCameraAttributes(self, cameraName):
+        self.readCache()
+        return
