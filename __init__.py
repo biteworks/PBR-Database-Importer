@@ -1,3 +1,4 @@
+from unicodedata import category
 import bpy
 from . ui import *
 from . operators import *
@@ -23,9 +24,11 @@ classes = (
     PBRDBIMPORTER_OT_CreateCamera,
     PBRDBIMPORTER_PT_Panel,
     PBRDBIMPORTER_PT_MaterialPanel,
-    PBRDBIMPORTER_PT_LightSourcesPanel,
-    PBRDBIMPORTER_PT_CamerasPanel
+    # PBRDBIMPORTER_PT_LightSourcesPanel,
+    # PBRDBIMPORTER_PT_CamerasPanel
 )
+
+categories = ("materials", "lightsources", "cameras")
 
 
 def register():
@@ -35,6 +38,10 @@ def register():
 
     bpy.types.Scene.pbrdbimporterprops = bpy.props.PointerProperty(
         type=PBRDBIMPORTER_Props)
+
+    for category in categories:
+        tempObj = PBR_DB_Connect(category)
+        tempObj.getApiData()
 
 
 def unregister():

@@ -18,8 +18,6 @@ class PBRDBIMPORTER_OT_CreateMaterial(bpy.types.Operator):
         materialAttributes = materialConnection.getMaterialAttributes(
             pbrdbimporter.materialList)
 
-        ior = 1.2
-
         if bpy.data.materials.get(materialName) is None:
 
             # Create material and assign Principled BSDF
@@ -31,18 +29,28 @@ class PBRDBIMPORTER_OT_CreateMaterial(bpy.types.Operator):
 
             # Base color
             principled_node.inputs[0].default_value = (
-                0.8, 0.0669999, 0.0974493, 1)
+                materialAttributes["color"][0], materialAttributes["color"][1], materialAttributes["color"][2], 1)
             # Metalness
-            principled_node.inputs[6].default_value = 0.5
+            principled_node.inputs[6].default_value = materialAttributes["metalness"]
             # Specular
             principled_node.inputs[7].default_value = (
-                (ior - 1)/(ior + 1)) ** 2 / 0.08
+                (materialAttributes["ior"] - 1)/(materialAttributes["ior"] + 1)) ** 2 / 0.08
             # Roughness
-            principled_node.inputs[9].default_value = 0.5
+            principled_node.inputs[9].default_value = materialAttributes["roughness"]
             # IOR
-            principled_node.inputs[16].default_value = 0.5
+            principled_node.inputs[16].default_value = materialAttributes["ior"]
             # Transmission if is used
-            principled_node.inputs[17].default_value = 0.0
+            if "transmission" in materialAttributes:
+                principled_node.inputs[17].default_value = materialAttributes["transmission"]
+
+            # Set viewport display and alpha blending
+            material.diffuse_color = (
+                materialAttributes["color"][0], materialAttributes["color"][1], materialAttributes["color"][2], 1)
+            material.metallic = materialAttributes["metalness"]
+            material.roughness = materialAttributes["roughness"]
+            if "transmission" in materialAttributes:
+                material.blend_method = 'BLEND'
+                material.use_screen_refraction = True
 
             infoMessage = materialName + ' is created'
             self.report({'INFO'}, infoMessage)
