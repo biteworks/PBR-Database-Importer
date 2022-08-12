@@ -1,5 +1,5 @@
-from operator import ior
 import bpy
+from . PBR_DB_Connect import *
 
 
 class PBRDBIMPORTER_OT_CreateMaterial(bpy.types.Operator):
@@ -13,6 +13,11 @@ class PBRDBIMPORTER_OT_CreateMaterial(bpy.types.Operator):
         print("Selected material preset:", pbrdbimporter.materialList)
         materialName = "PBR_" + pbrdbimporter.materialList
 
+        # Get material attributes
+        materialConnection = PBR_DB_Connect("materials")
+        materialAttributes = materialConnection.getMaterialAttributes(
+            pbrdbimporter.materialList)
+
         ior = 1.2
 
         if bpy.data.materials.get(materialName) is None:
@@ -20,7 +25,8 @@ class PBRDBIMPORTER_OT_CreateMaterial(bpy.types.Operator):
             # Create material and assign Principled BSDF
             material = bpy.data.materials.new(name=materialName)
             material.use_nodes = True
-            material.use_fake_user = True
+            if (pbrdbimporter.addFakeUserToMaterial):
+                material.use_fake_user = True
             principled_node = material.node_tree.nodes.get('Principled BSDF')
 
             # Base color
@@ -35,6 +41,11 @@ class PBRDBIMPORTER_OT_CreateMaterial(bpy.types.Operator):
             principled_node.inputs[9].default_value = 0.5
             # IOR
             principled_node.inputs[16].default_value = 0.5
+            # Transmission if is used
+            principled_node.inputs[17].default_value = 0.0
+
+            infoMessage = materialName + ' is created'
+            self.report({'INFO'}, infoMessage)
 
             if (pbrdbimporter.assignMaterialToObject):
                 objs = bpy.context.selected_objects

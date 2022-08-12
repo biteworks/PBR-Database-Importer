@@ -1,13 +1,13 @@
+import bpy
 from . ui import *
 from . operators import *
 from . props import *
-import bpy
 
 bl_info = {
     "name": "PBR-Database-Importer",
     "description": "",
     "author": "biteworks (Add-on), Anton Palmqvist (Database)",
-    "version": (0, 0, 1),
+    "version": (0, 0, 2),
     "blender": (2, 83, 0),
     "location": "3D View > Tools",
     "warning": "",

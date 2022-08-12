@@ -1,33 +1,29 @@
 import bpy
+from . PBR_DB_Connect import *
 
 
 class PBRDBIMPORTER_Props(bpy.types.PropertyGroup):
 
+    materialConnection = PBR_DB_Connect("materials")
+    lightSourcesConnection = PBR_DB_Connect("lightsources")
+    camerasConnection = PBR_DB_Connect("cameras")
+
     materialList: bpy.props.EnumProperty(
         name="List of base materials presets",
         description="List of base materials presets",
-        items=[('OP1', "Option 1", ""),
-               ('OP2', "Option 2", ""),
-               ('OP3', "Option 3", ""),
-               ]
+        items=materialConnection.getListOfNames()
     )
 
     lightSourceList: bpy.props.EnumProperty(
         name="Light of light sources presets",
         description="Light of light sources presets",
-        items=[('OP1', "Option 1", ""),
-               ('OP2', "Option 2", ""),
-               ('OP3', "Option 3", ""),
-               ]
+        items=lightSourcesConnection.getListOfNames()
     )
 
     cameraList: bpy.props.EnumProperty(
         name="List of cameras presets",
         description="List of cameras presets",
-        items=[('OP1', "Option 1", ""),
-               ('OP2', "Option 2", ""),
-               ('OP3', "Option 3", ""),
-               ]
+        items=camerasConnection.getListOfNames()
     )
 
     assignMaterialToObject: bpy.props.BoolProperty(
