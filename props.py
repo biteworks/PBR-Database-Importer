@@ -10,19 +10,19 @@ class PBRDBIMPORTER_Props(bpy.types.PropertyGroup):
 
     materialList: bpy.props.EnumProperty(
         name="List of base materials presets",
-        description="List of base materials presets",
+        description="List of base material presets",
         items=materialConnection.getListOfNames()
     )
 
     lightSourceList: bpy.props.EnumProperty(
         name="Light of light sources presets",
-        description="Light of light sources presets",
+        description="Light of light source presets",
         items=lightSourcesConnection.getListOfNames()
     )
 
     cameraList: bpy.props.EnumProperty(
         name="List of cameras presets",
-        description="List of cameras presets",
+        description="List of camera presets",
         items=camerasConnection.getListOfNames()
     )
 
