@@ -8,7 +8,7 @@ bl_info = {
     "name": "PBR-Database-Importer",
     "description": "",
     "author": "biteworks (Add-on), Anton Palmqvist (Database)",
-    "version": (0, 0, 2),
+    "version": (0, 0, 4),
     "blender": (2, 83, 0),
     "location": "3D View > Tools",
     "warning": "",
@@ -24,7 +24,7 @@ classes = (
     PBRDBIMPORTER_OT_CreateCamera,
     PBRDBIMPORTER_PT_Panel,
     PBRDBIMPORTER_PT_MaterialPanel,
-    # PBRDBIMPORTER_PT_LightSourcesPanel,
+    PBRDBIMPORTER_PT_LightSourcesPanel,
     # PBRDBIMPORTER_PT_CamerasPanel
     PBRDBIMPORTER_PT_AboutPanel
 )
@@ -40,6 +40,7 @@ def register():
     bpy.types.Scene.pbrdbimporterprops = bpy.props.PointerProperty(
         type=PBRDBIMPORTER_Props)
 
+    # Get initial API Data and cache it
     for category in categories:
         tempObj = PBR_DB_Connect(category)
         tempObj.getApiData()

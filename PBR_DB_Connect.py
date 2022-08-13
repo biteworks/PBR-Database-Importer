@@ -51,17 +51,9 @@ class PBR_DB_Connect:
 
         return self.presetsNamesList
 
-    def getMaterialAttributes(self, materialName):
+    def getAttributes(self, name):
         self.readCache()
 
-        for material in self.presetsList:
-            if material["name"] == materialName:
-                return material
-
-    def getLightSourceAttributes(self, lightSourceName):
-        self.readCache()
-        return
-
-    def getCameraAttributes(self, cameraName):
-        self.readCache()
-        return
+        for obj in self.presetsList:
+            if obj["name"] == name:
+                return obj

@@ -1,5 +1,6 @@
 import bpy
 from . PBR_DB_Connect import *
+from . Helpers import *
 
 
 class PBRDBIMPORTER_OT_CreateMaterial(bpy.types.Operator):
@@ -15,7 +16,7 @@ class PBRDBIMPORTER_OT_CreateMaterial(bpy.types.Operator):
 
         # Get material attributes
         materialConnection = PBR_DB_Connect("materials")
-        materialAttributes = materialConnection.getMaterialAttributes(
+        materialAttributes = materialConnection.getAttributes(
             pbrdbimporter.materialList)
 
         if bpy.data.materials.get(materialName) is None:
@@ -82,7 +83,37 @@ class PBRDBIMPORTER_OT_CreateLightSource(bpy.types.Operator):
         scene = context.scene
         pbrdbimporter = scene.pbrdbimporterprops
 
+        helpers = Helpers()
+
         print("Selected light source preset:", pbrdbimporter.lightSourceList)
+        lightSourceName = "PBR_Light_" + pbrdbimporter.lightSourceList
+
+        # Get light source attributes
+        lightSourceConnection = PBR_DB_Connect("lightsources")
+        lightSourceAttributes = lightSourceConnection.getAttributes(
+            pbrdbimporter.lightSourceList)
+
+        rgb = helpers.kelvinToRGB(lightSourceAttributes["temperature"])
+        power = helpers.lumesToPower(lightSourceAttributes["intensity"], rgb)
+
+        # Create light data
+        light_data = bpy.data.lights.new(name=lightSourceName, type='POINT')
+        light_data.color = (rgb[0], rgb[1], rgb[2])
+        light_data.energy = power
+
+        # Create light object with light data
+        light_object = bpy.data.objects.new(
+            name=lightSourceName, object_data=light_data)
+
+        # Add to scene
+        bpy.context.collection.objects.link(light_object)
+
+        # Update scene
+        depsgraph = bpy.context.evaluated_depsgraph_get()
+        depsgraph.update()
+
+        infoMessage = lightSourceName + ' is created'
+        self.report({'INFO'}, infoMessage)
 
         return {'FINISHED'}
 
