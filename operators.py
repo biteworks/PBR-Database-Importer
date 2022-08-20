@@ -31,6 +31,12 @@ class PBRDBIMPORTER_OT_CreateMaterial(bpy.types.Operator):
             # Base color
             principled_node.inputs[0].default_value = (
                 materialAttributes["color"][0], materialAttributes["color"][1], materialAttributes["color"][2], 1)
+
+            # TODO
+            # SSS implementation
+            if "subsurfaceRadius" in materialAttributes:
+                principled_node.inputs[2].default_value = (
+                    materialAttributes["subsurfaceRadius"][0], materialAttributes["subsurfaceRadius"][1], materialAttributes["subsurfaceRadius"][2])
             # Metalness
             principled_node.inputs[6].default_value = materialAttributes["metalness"]
             # Specular
